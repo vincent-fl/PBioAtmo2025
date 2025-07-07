@@ -252,7 +252,7 @@ boxplot_metric <- function(results_df, x = c("gap_size", "time_of_day"), y, titl
   
   # Gap size als Faktor ordnen
   if (x == "gap_size"){
-    ordered_gap_levels <- c("30min", "6h", "12h", "1d", "5d")
+    ordered_gap_levels <- c("30 min", "6 h", "12 h", "1 d", "5 d")
     results_df$gap_size <- factor(results_df$gap_size, levels = ordered_gap_levels, ordered = TRUE)
   }
   
@@ -508,6 +508,8 @@ splitTrainTest_byGapsize <- function(df, gap_size, gap_percents = 30,
   
   # Parser for time strings like '2h', '30min', '1day'
   parse_gap_size <- function(gap_size) {
+    # Remove space characters
+    gap_size <- gsub(" ", "", gap_size)
     matches <- regmatches(gap_size, regexec("^(\\d+(\\.\\d+)?)([a-zA-Z]+)$", gap_size))[[1]]
     if (length(matches) < 4) stop("Invalid gap_size format.")
     quantity <- as.numeric(matches[2])
